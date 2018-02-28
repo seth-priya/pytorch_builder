@@ -66,8 +66,7 @@ if [ "$OS" == "LINUX" ]; then
     if ! ls ~/ccache/bin/ccache
     then
         sudo apt-get update
-        sudo apt-get install -y automake autoconf
-        sudo apt-get install -y asciidoc
+        sudo apt-get install -y automake autoconf asciidoc
         mkdir -p ~/ccache
         pushd /tmp
         rm -rf ccache
@@ -96,6 +95,11 @@ if [ "$OS" == "LINUX" ]; then
         ln -s ~/ccache/bin/ccache ~/ccache/cuda/nvcc
 
         ~/ccache/bin/ccache -M 25Gi
+	sudo apt-get purge -y automake autoconf asciidoc
+	sudo apt-get autoremove -y
+	pushd /tmp
+	rm -rf ccache
+	popd
     fi
 
     export PATH=~/ccache/lib:$PATH
@@ -233,6 +237,7 @@ if [ "$ARCH" == "ppc64le" ]; then
         ./configure.py --bootstrap 
         sudo cp ninja /usr/local/bin
         popd
+	rm -rf ninja
     fi
 fi
 
@@ -353,6 +358,7 @@ pushd vision
 conda install -y pillow
 time python setup.py install
 popd
+rm -rf vision
 
 echo "ALL CHECKS PASSED"
 
@@ -399,4 +405,5 @@ fi
 # this is needed, i think because of a bug in nimbix-wrapper.py
 # otherwise, ALL CHECKS PASSED is not getting printed out sometimes
 sleep 10
+rm -rf $PROJECT
 exit 0
