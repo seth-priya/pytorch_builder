@@ -405,5 +405,4 @@ fi
 # this is needed, i think because of a bug in nimbix-wrapper.py
 # otherwise, ALL CHECKS PASSED is not getting printed out sometimes
 sleep 10
-rm -rf $PROJECT
 exit 0
